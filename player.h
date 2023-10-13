@@ -22,8 +22,8 @@ struct player {
  *
  *  We only support 2 users: a human and a computer
  */
-struct player user;
-struct player computer;
+extern struct player user;
+extern struct player computer;
 
 /*
  * Function: add_card

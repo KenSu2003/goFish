@@ -15,22 +15,22 @@ struct deck {
   int top_card;
 };
 
-/* 
+/*
  * Variable: deck_instance
  * -----------------------
  *
  * Go Fish uses a single deck
  */
-struct deck deck_instance; 
+extern struct deck deck_instance;
 
 /*
  * Function: shuffle
  * --------------------
  *  Initializes deck_instance and shuffles it.
  *  Resets the deck if a prior game has been played.
- * 
+ *
  *  returns: 0 if no error, and non-zero on error
- */ 
+ */
 int shuffle();
 
 /*
