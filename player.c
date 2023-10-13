@@ -18,7 +18,7 @@ int add_card(struct player* target, struct card* new_card){
 
     /* Allocate space for new element */
     struct hand* next_hand;
-    next_hand = (struct hand*)malloc(sizeof(struct hand*));
+    next_hand = (struct hand*)malloc(sizeof(struct hand));
     if (next_hand == NULL) { return -1; }
     
     /* Initialize new element */
@@ -103,53 +103,73 @@ char check_add_book(struct player* target){
     return 0;
 }
 
-// test code
 int search(struct player* target, char rank){
     struct hand* cards = target->card_list;
-    bool found = false;
-    for(int i=0;i<target->hand_size;i++){
-        struct card tcard = cards[i].top;
+    struct card tcard;
+    // printf("Searched rank is %c\n",rank);
+    while (cards != NULL){
+        tcard = cards->top;
+        // printf("Target has: %c\n",tcard.rank[0]);
         if(tcard.rank[0] == rank){
+            // printf("Rank %c found in Target.\n",rank);
             return 1;
-            break;
         }
+        cards = cards->next;
     }
-    if(found==false){return 0;}
+    
+    return 0;
 }
 
-// test code
-int transfer_cards(struct player* src, struct player* dest, char rank){
-    
-    struct hand* cards = src->card_list;
+int transfer_cards(struct player* src, struct player* dest, char rank) {
+    struct hand* current_card = src->card_list;
+    struct hand* previous = NULL;
     bool found = false;
-    int cards_transfered = 0;
+    int cards_transferred = 0;
+    int error = -1;
 
-    // move from src -> dest
-    for(int i=0;i<src->hand_size;i++){
-        
-        struct card tcard = cards[i].top;
-        int error = -1;
-        
-        if(tcard.rank[0] == rank){
-            // if card is found set found to true
+    // Iterate through the linked list
+    while (current_card != NULL) {
+        struct card tcard = current_card->top;
+
+        if (tcard.rank[0] == rank) {
+            // If card is found, set found to true
             found = true;
 
-            // add transfered card(s) to dest
-            error = add_card(dest,&tcard);
-            if(error!=0){return -1;}
+            // Add transferred card(s) to dest
+            error = add_card(dest, &tcard);
+            if (error != 0) {
+                return -1;
+            }
 
-            // remove transfered card(s) from src
-            error = remove_card(src,&tcard);
-            if(error!=0){return -1;}
+            // Remove transferred card(s) from src
+            if (previous != NULL) {
+                previous->next = current_card->next;
+            } else {
+                src->card_list = current_card->next;
+            }
 
-            cards_transfered++;
+            free(current_card);  // Free memory of the item we are removing
+
+            // Update hand_size
+            src->hand_size -= 1;
+
+            cards_transferred++;
+        } else {
+            // Move to the next card in the linked list
+            previous = current_card;
+            current_card = current_card->next;
         }
     }
-    if(found==false){return 0;}
 
-    // return number of cards transfered.
-    return cards_transfered;
+    if (!found) {
+        return 0;
+    }
+
+    // Return the number of cards transferred
+    return cards_transferred;
 }
+
+
 
 // test code
 int game_over(struct player* target){

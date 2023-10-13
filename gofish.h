@@ -6,7 +6,7 @@
    for gofish.h here.
 */
 
-void getHand(struct player* target);
-void player_turn(struct player* target);
+// void getHand(struct player* target);
+// void player_turn(struct player* target);
 
 #endif

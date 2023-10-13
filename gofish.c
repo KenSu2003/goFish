@@ -12,7 +12,6 @@ struct player computer;
 
 int game_state = 1;
 
-
 void getHand(struct player* target);
 void player_turn(struct player* target);
 
@@ -35,15 +34,15 @@ int main(int args, char* argv[])
     deal_player_cards(&user);
     deal_player_cards(&computer);
 
+    getHand(&computer);
     // 3. play game
     printf("Game Starting\n");
     player_turn(&user);
 
-    game_state = 0;
+    game_state = 0;     // end game
   }
 
 }
-
 
 void getHand(struct player* target){
   
@@ -79,8 +78,54 @@ void getHand(struct player* target){
 }
 
 void player_turn(struct player* target){
-  printf("Player 1's hand\n");
-  while(1){
-    getHand(&user);
+  struct player* opponent;
+  if(target == &user){
+    opponent = &computer;
+    printf("User's turn\n");
+  } else {
+    opponent = &user;
+    printf("Computer's turn\n");
   }
+
+  // Show player their card(s)
+  getHand(target);
+
+  // Let player choose a card from the opponent
+  char request[2];
+  printf("Please choose a rank [2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K, A]: ");
+  scanf("%s",request);     // limit input to oen character to prevent overflow
+  if(strcmp(request,"10") == 0){
+    request[0] = 'T'; 
+    request[1] = '\0';
+  }
+  printf("Request = %s\n",request);
+  
+  if(search(opponent,request[0])==1){
+    if(request[0]=='T'){
+      printf("Rank 10 found.\n");
+    } else {
+      printf("Rank %s found.\n",request);
+    }
+
+    // transfer cards from opponent to player
+    int error = transfer_cards(opponent, target, request[0]);
+    if(error<0){
+      printf("Error: Card not transfered correctly.\n");
+    } else if (error == 0){
+      printf("No card(s) found.\n");
+    } else {
+      printf("%d card(s) transfered.\n",error);
+    }
+
+  } else {
+    if(request[0]=='T'){
+      printf("Rank 10 is not found.\n");
+    } else {
+      printf("Rank %s is not found.\n",request);
+    }
+  }
+
+  // Show player's updated hand
+  getHand(target);
+
 }
