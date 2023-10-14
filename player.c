@@ -15,7 +15,6 @@
 /* Last stored index of book */
  int book_index = 0;
 
-// test code
 int add_card(struct player* target, struct card* new_card){
 
     /* Allocate space for new element */
@@ -40,7 +39,6 @@ int add_card(struct player* target, struct card* new_card){
     return 0;
 }
 
-// test code
 int remove_card(struct player* target, struct card* old_card){
     
     struct hand* iterator = target->card_list;
@@ -117,7 +115,8 @@ int search(struct player* target, char rank){
         tcard = cards->top;
         // printf("Target has: %c\n",tcard.rank[0]);
         if(tcard.rank[0] == rank){
-            printf("Rank %c found in Target.\n",rank);
+
+            // printf("Rank %c found in Target.\n",rank);
             return 1;
         }
         cards = cards->next;
@@ -174,8 +173,6 @@ int transfer_cards(struct player* src, struct player* dest, char rank) {
     // Return the number of cards transferred
     return cards_transferred;
 }
-
-
 
 // test code
 int game_over(struct player* target){
@@ -237,6 +234,7 @@ char user_play(struct player* target){
 
         // Search if opponent has of the rank
         if(search(target,request[0])==1){
+            printf("Request = %s\n",request);
             if(request[0]=='T'){
                 printf("Rank 10 found.\n");
             } else {

@@ -87,31 +87,32 @@ void player_turn(struct player* target){
   if(target == &user){
     opponent = &computer;
     printf("User's turn\n");
-    
     // Let user choose a card from the opponent
     request[0] = user_play(target);
-
-    // Transfer cards from opponent to player
-    int error = transfer_cards(opponent, target, request[0]);
-    if(error<0){
-      printf("Error: Card not transfered correctly.\n");
-    } else if (error == 0){
-      printf("No card(s) found.\n");
-      
-      // if card not found in opponent GOFISH
-      struct card* top_card = next_card();
-      printf("Card Added: ");
-      printf("Rank: %s\t", top_card->rank);
-      printf("Suit: %c\n", top_card->suit);
-      add_card(target, top_card);       
-    } else {
-      printf("%d card(s) transfered.\n",error);
-    }
-
   } else {
     opponent = &user;
     printf("Computer's turn\n");
+    // Let user choose a card from the opponent
+    request[0] = computer_play(target);
   }  
+
+  
+  // Transfer cards from opponent to player
+  int error = transfer_cards(opponent, target, request[0]);
+  if(error<0){
+    printf("Error: Card not transfered correctly.\n");
+  } else if (error == 0){
+    printf("Opponent has no card found.\n");
+    // if card not found in opponent GOFISH
+    struct card* top_card = next_card();
+    // printf("Card Added: ");
+    // printf("Rank: %s\t", top_card->rank);
+    // printf("Suit: %c\n", top_card->suit);
+    add_card(target, top_card);       
+  } else {
+    printf("%d card(s) transfered.\n",error);
+  }
+
   // Show player's updated hand
   printf("Player's Hand\n");
   getHand(target);
@@ -119,6 +120,5 @@ void player_turn(struct player* target){
   /* Check if the Player has won */
   // char added[1] = check_add_book(target);       // Check for a full book
   // game_over(target);
-  
 
 }
