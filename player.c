@@ -217,7 +217,6 @@ char computer_play(struct player* target){
     
 }
 
-//test code
 char user_play(struct player* target){
     char request[3];
     bool found = false;
@@ -226,17 +225,17 @@ char user_play(struct player* target){
         // Prompt player to choose a rank
         printf("Please choose a rank [2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K, A]: ");
         scanf("%s",request);     // limit input to oen character to prevent overflow
-        printf("Request = %s\n",request);
+        // printf("Request = %s\n",request);
 
         // Search if opponent has of the rank
         if(search(target,request[0])==1){
             // printf("Request = %s\n",request);
-            printf("Rank %s found.\n",request);
+            // printf("Rank %s found.\n",request);
             return request[0];
 
         // If not reprompt the player to choose a new rank
         } else {
-            printf("Rank %s is not found.\n",request);
+            // printf("Rank %s is not found.\n",request);
             printf("Error - must have at least one card from rank to play.\n");
         }
     }

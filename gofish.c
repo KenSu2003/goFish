@@ -40,7 +40,7 @@ int main(int args, char* argv[])
     printf("\nPlayer 2's Book - ");
 
     // 3. play game
-    printf("Game Starting\n");
+    printf("\nGame Starting\n");
     player_turn(&user);
 
     game_state = 0;     // end game
@@ -94,10 +94,11 @@ void player_turn(struct player* target){
   } else if (error == 0){
     printf("Opponent has no card found.\n");
     // if card not found in opponent GOFISH
+    printf("GO FISH\n");
     struct card* top_card = next_card();
-    // printf("Card Added: ");
-    // printf("Rank: %s\t", top_card->rank);
-    // printf("Suit: %c\n", top_card->suit);
+    printf("Card Added: ");
+    printf("Rank: %s\t", top_card->rank);
+    printf("Suit: %c\n", top_card->suit);
     add_card(target, top_card);       
   } else {
     printf("%d card(s) transfered.\n",error);
@@ -107,8 +108,11 @@ void player_turn(struct player* target){
   printf("Player's Hand\n");
   getHand(target);
 
+
   /* Check if the Player has won */
-  // char added[1] = check_add_book(target);       // Check for a full book
+  // char added;
+  // added = check_add_book(target);       // Check for a full book
+  // printf("Book found %c\n",added);
   // game_over(target);
 
 }
