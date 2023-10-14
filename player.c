@@ -110,7 +110,7 @@ char check_add_book(struct player* target){
 int search(struct player* target, char rank){
     struct hand* cards = target->card_list;
     struct card tcard;
-    printf("Searched rank is %c\n",rank);
+    // printf("Searched rank is %c\n",rank);
     while (cards != NULL){
         tcard = cards->top;
         // printf("Target has: %c\n",tcard.rank[0]);
@@ -219,36 +219,24 @@ char computer_play(struct player* target){
 
 //test code
 char user_play(struct player* target){
-    char request[2];
+    char request[3];
     bool found = false;
     while(found == false){
 
         // Prompt player to choose a rank
         printf("Please choose a rank [2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K, A]: ");
         scanf("%s",request);     // limit input to oen character to prevent overflow
-        if(strcmp(request,"10") == 0){
-            request[0] = 'T'; 
-            request[1] = '\0';
-        }
         printf("Request = %s\n",request);
 
         // Search if opponent has of the rank
         if(search(target,request[0])==1){
-            printf("Request = %s\n",request);
-            if(request[0]=='T'){
-                printf("Rank 10 found.\n");
-            } else {
-                printf("Rank %s found.\n",request);
-            }
+            // printf("Request = %s\n",request);
+            printf("Rank %s found.\n",request);
             return request[0];
 
         // If not reprompt the player to choose a new rank
         } else {
-            if(request[0]=='T'){
-                printf("Rank 10 is not found.\n");
-            } else {
-                printf("Rank %s is not found.\n",request);
-            }
+            printf("Rank %s is not found.\n",request);
             printf("Error - must have at least one card from rank to play.\n");
         }
     }
