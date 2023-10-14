@@ -28,22 +28,25 @@ int main(int args, char* argv[])
     
     // 1. shuffle deck
     shuffle();
-
+    printf("\n");
     // 2. deal cards
-    printf("Dealing players cards\n");
+    // printf("Dealing players cards\n");
     deal_player_cards(&user);
     deal_player_cards(&computer);
 
-    printf("Computer's Cards\n");
-    getHand(&computer);
+    printf("Player 1's Hand - ");
+    getHand(&user);
+    printf("\nPlayer 1's Book - ");
+    printf("\nPlayer 2's Book - ");
+
     // 3. play game
     printf("Game Starting\n");
     player_turn(&user);
 
     game_state = 0;     // end game
   }
-
 }
+
 
 void getHand(struct player* target){
   
@@ -55,28 +58,15 @@ void getHand(struct player* target){
   }       
   
   // if hand is not empty
-  int card_number = 1;
   while (iterator != NULL){
 
-    // print the current card
-    if(iterator->top.rank[0] != 'T'){
-    // if(strcmp(iterator->top.rank, "T") != 0){
-      printf("%d) ",card_number);
-      printf("Rank: %s\t", iterator->top.rank);
-      printf("Suit: %c\n", iterator->top.suit);
-      card_number++;
-    } else if(iterator->top.rank[0] == 'T'){
-      printf("%d) ",card_number);
-      printf("Rank: 10\t");
-      printf("Suit: %c\n", iterator->top.suit);
-      card_number++;
-    }
-
+    printf("%s%c ", iterator->top.rank, iterator->top.suit);
     // move to next card
     iterator = iterator->next;
 
   }
 }
+
 
 void player_turn(struct player* target){
   struct player* opponent;
