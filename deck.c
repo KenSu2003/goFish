@@ -24,6 +24,8 @@ int shuffle(){
     // printf("Suit: %c\n", deck_instance.list[k].suit);
     // }
 
+    srand(2);
+
     // Go through each card and switch it with a random card from the rest of the cards
     for (int i = 51; i > 0; i--){   // 52, 51, 50, ..., 1
         int j = rand() % (i+1);   // random index from 0 to i
@@ -32,7 +34,7 @@ int shuffle(){
         struct card temp = deck_instance.list[i];        // set temp = ith card
         deck_instance.list[i] = deck_instance.list[j];   // ith card = jth card
         deck_instance.list[j] = temp;                    // ith card = ith card
-        deck_instance.top_card = 52;   // initialize top card to 52
+        deck_instance.top_card = 51;   // initialize top card to 52
     }
     // printf("After Shuffle: \n");
     // for (int k = 0; k < 52; k++){
@@ -50,12 +52,12 @@ int deal_player_cards(struct player* target){
         if (top_card == NULL){return -1;}   // check that the deck has been initalized
         
         // printf("Deal card\n");
-        // printf("Rank: %s ", deck_instance.list[deck_instance.top_card].rank);
+        // printf("Rank: %s ", top_card->rank);
         // printf("Suit: %c\n", deck_instance.list[deck_instance.top_card].suit);
         
         add_card(target, top_card);         // add card to player hand (implemented in player.c)
     }
-return 0;   // executed successfully
+    return 0;   // executed successfully
 }
 
 // test

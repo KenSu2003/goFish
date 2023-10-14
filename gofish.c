@@ -34,6 +34,7 @@ int main(int args, char* argv[])
     deal_player_cards(&user);
     deal_player_cards(&computer);
 
+    printf("Computer's Cards\n");
     getHand(&computer);
     // 3. play game
     printf("Game Starting\n");
@@ -79,53 +80,45 @@ void getHand(struct player* target){
 
 void player_turn(struct player* target){
   struct player* opponent;
+  char request[2];
+  getHand(target);
+
+  // Determine which player is playing
   if(target == &user){
     opponent = &computer;
     printf("User's turn\n");
-  } else {
-    opponent = &user;
-    printf("Computer's turn\n");
-  }
+    
+    // Let user choose a card from the opponent
+    request[0] = user_play(target);
 
-  // Show player their card(s)
-  getHand(target);
-
-  // Let player choose a card from the opponent
-  char request[2];
-  printf("Please choose a rank [2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K, A]: ");
-  scanf("%s",request);     // limit input to oen character to prevent overflow
-  if(strcmp(request,"10") == 0){
-    request[0] = 'T'; 
-    request[1] = '\0';
-  }
-  printf("Request = %s\n",request);
-  
-  if(search(opponent,request[0])==1){
-    if(request[0]=='T'){
-      printf("Rank 10 found.\n");
-    } else {
-      printf("Rank %s found.\n",request);
-    }
-
-    // transfer cards from opponent to player
+    // Transfer cards from opponent to player
     int error = transfer_cards(opponent, target, request[0]);
     if(error<0){
       printf("Error: Card not transfered correctly.\n");
     } else if (error == 0){
       printf("No card(s) found.\n");
+      
+      // if card not found in opponent GOFISH
+      struct card* top_card = next_card();
+      printf("Card Added: ");
+      printf("Rank: %s\t", top_card->rank);
+      printf("Suit: %c\n", top_card->suit);
+      add_card(target, top_card);       
     } else {
       printf("%d card(s) transfered.\n",error);
     }
 
   } else {
-    if(request[0]=='T'){
-      printf("Rank 10 is not found.\n");
-    } else {
-      printf("Rank %s is not found.\n",request);
-    }
-  }
-
+    opponent = &user;
+    printf("Computer's turn\n");
+  }  
   // Show player's updated hand
+  printf("Player's Hand\n");
   getHand(target);
+
+  /* Check if the Player has won */
+  // char added[1] = check_add_book(target);       // Check for a full book
+  // game_over(target);
+  
 
 }
