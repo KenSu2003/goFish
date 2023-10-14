@@ -65,6 +65,7 @@ void getHand(struct player* target){
     iterator = iterator->next;
 
   }
+  printf("\n");
 }
 
 
@@ -110,9 +111,10 @@ void player_turn(struct player* target){
 
 
   /* Check if the Player has won */
-  // char added;
-  // added = check_add_book(target);       // Check for a full book
-  // printf("Book found %c\n",added);
+  char added;
+  added = check_add_book(target);       // Check for a full book
+  if(added != '0'){ printf("Book found %c\n",added); }
+  
   // game_over(target);
 
 }

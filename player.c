@@ -4,7 +4,6 @@
 #include <stdbool.h>
 #include <string.h>
 
-
 /* Need tp include for rand and srand */
 #include <stdlib.h> 
 #include <time.h>
@@ -12,8 +11,7 @@
 /* Need to include this for NULL */
 #include <unistd.h> // https://github.com/microsoft/vscode-cpptools/issues/2607
 
-/* Last stored index of book */
- int book_index = 0;
+int book_index = 0;
 
 int add_card(struct player* target, struct card* new_card){
 
@@ -70,42 +68,53 @@ int remove_card(struct player* target, struct card* old_card){
 };
 
 // test code
-char check_add_book(struct player* target){
-    if(target->hand_size==0){return 0;}     // check if the player has cards to begin with
+char check_add_book(struct player* target) {
+    if (target->hand_size == 0) {
+        return 0; // check if the player has cards to begin with
+    }
 
     struct hand* cards = target->card_list;
-    for(int i=0;i<sizeof(struct hand*);i++){
-        struct card tcard = cards[i].top;   // get current card
+    while (cards != NULL) {
+        struct card tcard = cards->top;   // get current card
         int count = 0;                      // count how many of the cards had been matched
         int indexes[4];
         int index = 0;
-        for(int j=0;j<target->hand_size;j++){
-            struct card scard = cards[j].top;
-            if(tcard.rank[0] == scard.rank[0]){
+        int cardIndex = 0;
+        // Iterate through the hand to count matching cards
+        struct hand* current = target->card_list;
+        while (current != NULL) {
+            struct card scard = current->top;
+            if (tcard.rank[0] == scard.rank[0]) {
                 count++;
-                indexes[index] = j;
+                indexes[index] = cardIndex;
                 index++;
             }
+            current = current->next;
+            cardIndex++;
         }
-        
-        if(book_index>=7){game_over(target);}
+
+        if (book_index >= 7) {
+            game_over(target);
+        }
 
         // if there are 4 cards with the same rank
-        if(count==4){
+        if (count == 4) {
             // add rank to book
             target->book[book_index] = tcard.rank[0];
             // remove those cards
-            for(int j=0;j<4;j++){
-                struct card rcard = cards[j].top; 
+            for (int j = 0; j < 4; j++) {
+                struct card rcard = cards->top;
                 remove_card(target, &rcard);
                 book_index++;
             }
-            
             return tcard.rank[0];
         }
+
+        cards = cards->next;
     }
-    return 0;
+    return '0';
 }
+
 
 int search(struct player* target, char rank){
     struct hand* cards = target->card_list;
