@@ -4,6 +4,7 @@
         "unistd.h": "c",
         "time.h": "c",
         "player.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "string.h": "c"
     }
 }

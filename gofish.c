@@ -19,44 +19,66 @@ void getBook(struct player* target);
 
 int main(int args, char* argv[]) 
 {
-
-  while(game_state==0){
+  while(restart == 1){
 
     /* Initizlize Game */
-    int player_wins = 0;
-    int computer_wins = 0;
-    // user.book_index=0;
-    // computer.book_index=0;
+      int player_wins = 0;
+      int computer_wins = 0;
+      // user.book_index=0;
+      // computer.book_index=0;
 
+      // 1. shuffle deck
+      shuffle();
+      printf("\n");
+
+      // 2. deal cards
+      // printf("Dealing players cards\n");
+      deal_player_cards(&user);
+      deal_player_cards(&computer);
+
+    // Turn Counter; player is even, computer is odd
+    int player_counter = 0;
     /* Start Game */
-    
-    // 1. shuffle deck
-    shuffle();
-    printf("\n");
-    // 2. deal cards
-    // printf("Dealing players cards\n");
-    deal_player_cards(&user);
-    deal_player_cards(&computer);
-
-    printf("Player 1's Hand - ");
-    getHand(&user);
-    printf("Player 2's Hand - ");
-    getHand(&computer);
-    printf("\nPlayer 1's Book - ");
-    getBook(&user);
-    printf("\nPlayer 2's Book - ");
-    getBook(&computer);
-
-    // 3. play game
     printf("\nGame Starting\n");
-    game_state = player_turn(&user);
+    while(game_state==0){
+
+      //return 1; // user has won
+      //return 2; // computer has won
+      printf("————————————————————————————————————————\n");
+      printf("Player 1's Hand - ");
+      getHand(&user);
+      printf("Player 2's Hand - ");
+      getHand(&computer);
+      printf("Player 1's Book - ");
+      getBook(&user);
+      printf("\nPlayer 2's Book - ");
+      getBook(&computer);
+      printf("\n————————————————————————————————————————\n");
+
+      // 3. play game
+      if(player_counter%2==0){
+        game_state = player_turn(&user);
+      } else {
+        game_state = player_turn(&computer);
+      }
+      player_counter++;
+    }
+
+    if(game_state == 1){
+      printf("\nPlayer has won\n");
+    } else if (game_state == 2){
+      printf("\nComputer has won\n");
+    }
+
+    char restartC;
+    printf("Would you like to restart the game? [y/n]: ");
+    scanf("%c",restartC);
+    if(restartC=='y'){
+      restart=1;        // restart the game
+    } else {
+      restart=0;        // end game
+    }
   }
-  if(game_state == 1){
-    printf("Player has won\n");
-  } else if (game_state == 2){
-    printf("Computer has won\n");
-  }
-  printf("Would you like to restart the game?");
 }
 
 
@@ -90,22 +112,27 @@ void getBook(struct player* target){
 int player_turn(struct player* target){
   struct player* opponent;
   char request[2];
-  getHand(target);
 
   // Determine which player is playing
   if(target == &user){
+    printf("User's Hand\n");
+    getHand(target);
+    printf("\n");
     opponent = &computer;
     printf("User's turn\n");
     // Let user choose a card from the opponent
     request[0] = user_play(target);
   } else {
+    printf("Computer's Hand\n");
+    getHand(target);
+    printf("\n");
     opponent = &user;
     printf("Computer's turn\n");
     // Let user choose a card from the opponent
     request[0] = computer_play(target);
   }  
 
-  
+  printf("\n");
   // Transfer cards from opponent to player
   int error = transfer_cards(opponent, target, request[0]);
   if(error<0){
@@ -124,8 +151,13 @@ int player_turn(struct player* target){
   }
 
   // Show player's updated hand
-  printf("Player's Hand\n");
-  getHand(target);
+  if(target == &user){
+    printf("\nUser's New Hand\n");
+    getHand(target);
+  } else {
+    printf("\nComputer's New Hand\n");
+    getHand(target);
+  }  
 
   /* Check if the Player has won */
   char added;

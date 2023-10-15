@@ -68,7 +68,7 @@ int remove_card(struct player* target, struct card* old_card){
 
 };
 
-// test code
+// not removing cards correctly
 char check_add_book(struct player* target) {
     if (target->hand_size == 0) {
         return 0; // check if the player has cards to begin with
@@ -99,14 +99,14 @@ char check_add_book(struct player* target) {
         // if there are 4 cards with the same rank
         if (count == 4) {
             // add rank to book
-            target->book[target->book_index] = tcard.rank[0];
+            target->book[target->book_index] = tcard.rank[0]; // not for 10
+            
             // remove those cards
             for (int j = 0; j < 4; j++) {
                 struct card rcard = cards->top;
                 remove_card(target, &rcard);
-                target->book_index++;
             }
-
+            target->book_index++;
             if (target->book_index >= 6) {
                 game_over(target);
             }
@@ -119,11 +119,10 @@ char check_add_book(struct player* target) {
     return '0';
 }
 
-
 int search(struct player* target, char rank){
     struct hand* cards = target->card_list;
     struct card tcard;
-    // printf("Searched rank is %c\n",rank);
+    printf("Searched rank is %c\n",rank);
     while (cards != NULL){
         tcard = cards->top;
         // printf("Target has: %c\n",tcard.rank[0]);
