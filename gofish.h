@@ -8,6 +8,6 @@
 
 // void getHand(struct player* target);
 // void player_turn(struct player* target);
-// void printBook(struct player* target);
+// void getBook(struct player* target);
 
 #endif

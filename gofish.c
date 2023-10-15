@@ -10,19 +10,23 @@
 struct player user;
 struct player computer;
 
-int game_state = 1;
+int game_state = 0;
+int restart = 1;
 
 void getHand(struct player* target);
-void player_turn(struct player* target);
+int player_turn(struct player* target);
+void getBook(struct player* target);
 
 int main(int args, char* argv[]) 
 {
 
-  while(game_state){
+  while(game_state==0){
 
     /* Initizlize Game */
     int player_wins = 0;
     int computer_wins = 0;
+    // user.book_index=0;
+    // computer.book_index=0;
 
     /* Start Game */
     
@@ -36,15 +40,23 @@ int main(int args, char* argv[])
 
     printf("Player 1's Hand - ");
     getHand(&user);
+    printf("Player 2's Hand - ");
+    getHand(&computer);
     printf("\nPlayer 1's Book - ");
+    getBook(&user);
     printf("\nPlayer 2's Book - ");
+    getBook(&computer);
 
     // 3. play game
     printf("\nGame Starting\n");
-    player_turn(&user);
-
-    game_state = 0;     // end game
+    game_state = player_turn(&user);
   }
+  if(game_state == 1){
+    printf("Player has won\n");
+  } else if (game_state == 2){
+    printf("Computer has won\n");
+  }
+  printf("Would you like to restart the game?");
 }
 
 
@@ -68,8 +80,14 @@ void getHand(struct player* target){
   printf("\n");
 }
 
+void getBook(struct player* target){
+  printf("Book: ");
+  for (int i=0;i<sizeof(target->book);i++){
+    printf("%c, ",target->book[i]);
+  }
+}
 
-void player_turn(struct player* target){
+int player_turn(struct player* target){
   struct player* opponent;
   char request[2];
   getHand(target);
@@ -109,12 +127,15 @@ void player_turn(struct player* target){
   printf("Player's Hand\n");
   getHand(target);
 
-
   /* Check if the Player has won */
   char added;
   added = check_add_book(target);       // Check for a full book
   if(added != '0'){ printf("Book found %c\n",added); }
-  
-  // game_over(target);
-
+  int won = game_over(target);
+  if(won==1 && opponent==&computer){
+    return 1; // user has won
+  } else if (won==1 && opponent==&user) {
+    return 2; // computer has won
+  }
+  return 0;
 }

@@ -11,7 +11,8 @@
 /* Need to include this for NULL */
 #include <unistd.h> // https://github.com/microsoft/vscode-cpptools/issues/2607
 
-int book_index = 0;
+//int book_index = 0;
+
 
 int add_card(struct player* target, struct card* new_card){
 
@@ -93,20 +94,23 @@ char check_add_book(struct player* target) {
             cardIndex++;
         }
 
-        if (book_index >= 7) {
-            game_over(target);
-        }
+        
 
         // if there are 4 cards with the same rank
         if (count == 4) {
             // add rank to book
-            target->book[book_index] = tcard.rank[0];
+            target->book[target->book_index] = tcard.rank[0];
             // remove those cards
             for (int j = 0; j < 4; j++) {
                 struct card rcard = cards->top;
                 remove_card(target, &rcard);
-                book_index++;
+                target->book_index++;
             }
+
+            if (target->book_index >= 6) {
+                game_over(target);
+            }
+
             return tcard.rank[0];
         }
 
@@ -185,7 +189,7 @@ int transfer_cards(struct player* src, struct player* dest, char rank) {
 
 // test code
 int game_over(struct player* target){
-    if(sizeof(target->book)>=7){ return 1; }
+    if(target->book_index>=7){ return 1; }
     return 0;
 }
 

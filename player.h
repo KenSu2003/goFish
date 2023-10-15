@@ -14,6 +14,7 @@ struct player {
   struct hand* card_list;
   char book[7];
   size_t hand_size;
+  int book_index;
 };
 
 /* 
@@ -145,5 +146,3 @@ char computer_play(struct player* target);
 char user_play(struct player* target);
 
 #endif
-
-
