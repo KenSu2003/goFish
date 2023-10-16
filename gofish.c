@@ -54,11 +54,11 @@ int main(int args, char* argv[])
       reset_player(&computer);
       reset_player(&user);
       restart=1;        // restart the game
+      continue;
     } else {
       printf("Game Closed\n");
       restart=0;        // end game
     }
-
   }
   printf("Exiting Application\n");
 }
@@ -121,7 +121,7 @@ void getHand(struct player* target){
   // if hand is empty
   if (iterator == NULL) {
     printf("Player has an empty hand.\n");
-
+    goFish(target);
     printf("GO FISH\n");
   }       
   
