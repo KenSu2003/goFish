@@ -17,53 +17,25 @@ void getHand(struct player* target);
 int player_turn(struct player* target);
 void getBook(struct player* target);
 void goFish(struct player* target);
+void initializeGame();
+int startGame();
+
+// Turn Counter; player is even, computer is odd
+int player_counter = 0;
 
 int main(int args, char* argv[]) 
 {
   while(restart == 1){
 
-    /* Initizlize Game */
-    // int player_wins = 0;
-    // int computer_wins = 0;
-    // user.book_index=0;
-    // computer.book_index=0;
-
-    // 1. shuffle deck
-    shuffle();
-    printf("\n");
-
-    // 2. deal cards
-    // printf("Dealing players cards\n");
-    deal_player_cards(&user);
-    deal_player_cards(&computer);
-
-    // Turn Counter; player is even, computer is odd
-    int player_counter = 0;
+    printf("Initializing Game\n");
+    initializeGame();
     /* Start Game */
+    
     printf("\nGame Starting\n");
     while(game_state==0){
-
       //return 1; // user has won
       //return 2; // computer has won
-      printf("\nNew Turn\n");
-      printf("————————————————————————————————————————\n");
-      printf("Player 1's Hand - ");
-      getHand(&user);
-      printf("Player 2's Hand - ");
-      getHand(&computer);
-      printf("Player 1's Book - ");
-      getBook(&user);
-      printf("\nPlayer 2's Book - ");
-      getBook(&computer);
-      printf("\n————————————————————————————————————————\n");
-
-      // 3. play game
-      if(player_counter%2==0){
-        game_state = player_turn(&user);
-      } else {
-        game_state = player_turn(&computer);
-      }
-      player_counter++;
+      game_state = startGame();
     }
 
     if(game_state == 1){
@@ -86,15 +58,50 @@ int main(int args, char* argv[])
       printf("Game Closed\n");
       restart=0;        // end game
     }
+
   }
+  printf("Exiting Application\n");
 }
 
 
 void initializeGame(){
-  
+  /* Initizlize Game */
+  game_state = 0;
+  player_counter = 0;
+
+  // 1. shuffle deck
+  shuffle();
+  printf("\n");
+
+  // 2. deal cards
+  // printf("Dealing players cards\n");
+  deal_player_cards(&user);
+  deal_player_cards(&computer);
+
 }
 
-void startGame(){
+// return game_state = 0 if continue game
+int startGame(){
+  printf("\nNew Turn\n");
+  printf("————————————————————————————————————————\n");
+  printf("Player 1's Hand - ");
+  getHand(&user);
+  printf("Player 2's Hand - ");
+  getHand(&computer);
+  printf("Player 1's Book - ");
+  getBook(&user);
+  printf("\nPlayer 2's Book - ");
+  getBook(&computer);
+  printf("\n————————————————————————————————————————\n");
+
+  // 3. play game
+  if(player_counter%2==0){
+    game_state = player_turn(&user);
+  } else {
+    game_state = player_turn(&computer);
+  }
+  player_counter++;
+  return game_state;
 
 }
 
