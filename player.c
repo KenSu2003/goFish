@@ -114,9 +114,9 @@ char check_add_book(struct player* target) {
             target->book_index++;
 
             // check if the player had won
-            if (target->book_index >= 6) {
-                game_over(target);
-            }
+            // if (target->book_index >= 7) {
+            //     game_over(target);
+            // }
 
             return tcard.rank[0];
         }

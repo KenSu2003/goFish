@@ -151,14 +151,7 @@ int player_turn(struct player* target){
   if(error<0){
     printf("Error: Card not transfered correctly.\n");
   } else if (error == 0){
-    printf("No card found.\n");
-    // if card not found in opponent GOFISH
-    // printf("GO FISH\n");
-    // struct card* top_card = next_card();      // creating segmentation fault
-    // printf("Card Added: ");
-    // printf("Rank: %s\t", top_card->rank);
-    // printf("Suit: %c\n", top_card->suit);
-    // add_card(target, top_card);       
+    printf("No card found.\n");  
     goFish(target);
   } else {
     printf("%d card(s) transfered.\n",error);
