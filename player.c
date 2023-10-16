@@ -170,11 +170,11 @@ int transfer_cards(struct player* src, struct player* dest, char rank) {
             // Remove transferred card(s) from src
             if (previous != NULL) {
                 previous->next = current_card->next;
-                free(current_card); // Free memory of item we are removing
+                // free(current_card); // Free memory of item we are removing
                 current_card = previous->next; // Move to the next card in the linked list
             } else {
                 src->card_list = current_card->next;
-                free(current_card); // Free memory of item we are removing
+                // free(current_card); // Free memory of item we are removing
                 current_card = src->card_list; // Move to the next card in the linked list
             }
 
@@ -207,10 +207,16 @@ int game_over(struct player* target){
 int reset_player(struct player* target){
     
     // Remove all the cards from the player
-    while (target->card_list != NULL) {
-        struct card tcard = target->card_list->top;
-        remove_card(target, &tcard);
+    struct hand* cards = target->card_list;
+    struct hand* previous;
+    struct card card;
+    while (cards != NULL){
+        previous = cards;
+        cards = cards->next;
+        card = previous->top;
+        remove_card(target,&card);
     }
+    
 
     // Reset the Player's book
     for (int i = 0; i < sizeof(target->book); i++) {
