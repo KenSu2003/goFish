@@ -129,7 +129,7 @@ char check_add_book(struct player* target) {
 int search(struct player* target, char rank){
     struct hand* cards = target->card_list;
     struct card tcard;
-    printf("Searched rank is %c\n",rank);
+    // printf("Searched rank is %c\n",rank);
     while (cards != NULL){
         tcard = cards->top;
         // printf("Target has: %c\n",tcard.rank[0]);
@@ -155,10 +155,6 @@ int transfer_cards(struct player* src, struct player* dest, char rank) {
     while (current_card != NULL) {
         struct card tcard = current_card->top;
 
-        // printf("Trasnfer Cards: Current Card: ");
-        // printf("Rank: %s\t", tcard.rank);
-        // printf("Suit: %c\n", tcard.suit);
-
         if (tcard.rank[0] == rank) {
             // If card is found, set found to true
             found = true;
@@ -174,20 +170,23 @@ int transfer_cards(struct player* src, struct player* dest, char rank) {
             // Remove transferred card(s) from src
             if (previous != NULL) {
                 previous->next = current_card->next;
+                free(current_card); // Free memory of item we are removing
+                current_card = previous->next; // Move to the next card in the linked list
             } else {
                 src->card_list = current_card->next;
+                free(current_card); // Free memory of item we are removing
+                current_card = src->card_list; // Move to the next card in the linked list
             }
-            // printf("Card Transfered\n");
 
             // Update hand_size
             src->hand_size -= 1;
             
             cards_transferred++;
+        } else {
+            // Move to the next card in the linked list
+            previous = current_card;
+            current_card = current_card->next;
         }
-        // Move to the next card in the linked list
-        previous = current_card;
-        current_card = current_card->next;
-        
     }
 
     // If no cards are found return 0

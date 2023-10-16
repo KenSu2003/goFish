@@ -16,14 +16,15 @@ int restart = 1;
 void getHand(struct player* target);
 int player_turn(struct player* target);
 void getBook(struct player* target);
+void goFish(struct player* target);
 
 int main(int args, char* argv[]) 
 {
   while(restart == 1){
 
     /* Initizlize Game */
-    int player_wins = 0;
-    int computer_wins = 0;
+    // int player_wins = 0;
+    // int computer_wins = 0;
     // user.book_index=0;
     // computer.book_index=0;
 
@@ -44,6 +45,7 @@ int main(int args, char* argv[])
 
       //return 1; // user has won
       //return 2; // computer has won
+      printf("\nNew Turn\n");
       printf("————————————————————————————————————————\n");
       printf("Player 1's Hand - ");
       getHand(&user);
@@ -82,6 +84,14 @@ int main(int args, char* argv[])
   }
 }
 
+void goFish(struct player* target){
+  printf("GO FISH\n");
+  struct card* top_card = next_card();      // creating segmentation fault
+  printf("Card Added: ");
+  printf("Rank: %s\t", top_card->rank);
+  printf("Suit: %c\n", top_card->suit);
+  add_card(target, top_card);       
+}
 
 void getHand(struct player* target){
   
@@ -90,6 +100,8 @@ void getHand(struct player* target){
   // if hand is empty
   if (iterator == NULL) {
     printf("Player has an empty hand.\n");
+
+    printf("GO FISH\n");
   }       
   
   // if hand is not empty
@@ -139,14 +151,15 @@ int player_turn(struct player* target){
   if(error<0){
     printf("Error: Card not transfered correctly.\n");
   } else if (error == 0){
-    printf("Opponent has no card found.\n");
+    printf("No card found.\n");
     // if card not found in opponent GOFISH
-    printf("GO FISH\n");
-    struct card* top_card = next_card();      // creating segmentation fault
-    printf("Card Added: ");
-    printf("Rank: %s\t", top_card->rank);
-    printf("Suit: %c\n", top_card->suit);
-    add_card(target, top_card);       
+    // printf("GO FISH\n");
+    // struct card* top_card = next_card();      // creating segmentation fault
+    // printf("Card Added: ");
+    // printf("Rank: %s\t", top_card->rank);
+    // printf("Suit: %c\n", top_card->suit);
+    // add_card(target, top_card);       
+    goFish(target);
   } else {
     printf("%d card(s) transfered.\n",error);
   }
