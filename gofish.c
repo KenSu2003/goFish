@@ -22,19 +22,19 @@ int main(int args, char* argv[])
   while(restart == 1){
 
     /* Initizlize Game */
-      int player_wins = 0;
-      int computer_wins = 0;
-      // user.book_index=0;
-      // computer.book_index=0;
+    int player_wins = 0;
+    int computer_wins = 0;
+    // user.book_index=0;
+    // computer.book_index=0;
 
-      // 1. shuffle deck
-      shuffle();
-      printf("\n");
+    // 1. shuffle deck
+    shuffle();
+    printf("\n");
 
-      // 2. deal cards
-      // printf("Dealing players cards\n");
-      deal_player_cards(&user);
-      deal_player_cards(&computer);
+    // 2. deal cards
+    // printf("Dealing players cards\n");
+    deal_player_cards(&user);
+    deal_player_cards(&computer);
 
     // Turn Counter; player is even, computer is odd
     int player_counter = 0;
@@ -70,10 +70,11 @@ int main(int args, char* argv[])
       printf("\nComputer has won\n");
     }
 
-    char restartC;
+    printf("Restart?\n");
+    char restartC[2];
     printf("Would you like to restart the game? [y/n]: ");
-    scanf("%c",restartC);
-    if(restartC=='y'){
+    scanf("%s",restartC);
+    if(restartC[0]=='y'){
       restart=1;        // restart the game
     } else {
       restart=0;        // end game

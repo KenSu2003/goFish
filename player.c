@@ -106,7 +106,7 @@ char check_add_book(struct player* target) {
             
             // remove those cards
             for (int i = 0; i < 4; i++) {
-                printf("card_remove = %c, %s\n",card_remove[i].suit,card_remove[i].rank);
+                // printf("card_remove = %c, %s\n",card_remove[i].suit,card_remove[i].rank);
                 remove_card(target, &card_remove[i]);
             }
 
@@ -177,7 +177,7 @@ int transfer_cards(struct player* src, struct player* dest, char rank) {
             } else {
                 src->card_list = current_card->next;
             }
-            printf("Card Transfered\n");
+            // printf("Card Transfered\n");
 
             // Update hand_size
             src->hand_size -= 1;
