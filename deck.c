@@ -26,12 +26,12 @@ int shuffle(){
         deck_instance.list[i].rank[2] = '\0';  // terminate the string
         }
     }
-    printf("Inital Deck: \n");
-    for (int k = 0; k < 52; k++){
-    printf("Rank: %s ", deck_instance.list[k].rank);
+    // printf("Inital Deck: \n");
+    // for (int k = 0; k < 52; k++){
+    // printf("Rank: %s ", deck_instance.list[k].rank);
     // printf("Rank: %c%c ",deck_instance.list[k].rank[0], deck_instance.list[k].rank[1]);
-    printf("Suit: %c\n", deck_instance.list[k].suit);
-    }
+    // printf("Suit: %c\n", deck_instance.list[k].suit);
+    // }
 
     // Go through each card and switch it with a random card from the rest of the cards
     srand(2);   // set a seed for testing.
@@ -44,11 +44,11 @@ int shuffle(){
         deck_instance.list[j] = temp;                    // ith card = ith card
     }
     deck_instance.top_card = 51;   // initialize top card to 51
-    printf("After Shuffle: \n");
-    for (int k = 0; k < 52; k++){
-    printf("Rank: %s ", deck_instance.list[k].rank);
-    printf("Suit: %c\n", deck_instance.list[k].suit);
-    }
+    // printf("After Shuffle: \n");
+    // for (int k = 0; k < 52; k++){
+    // printf("Rank: %s ", deck_instance.list[k].rank);
+    // printf("Suit: %c\n", deck_instance.list[k].suit);
+    // }
 return 0;
 }
 

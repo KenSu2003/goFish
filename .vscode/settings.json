@@ -5,6 +5,7 @@
         "time.h": "c",
         "player.h": "c",
         "stdlib.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "stdio.h": "c"
     }
 }

@@ -141,7 +141,7 @@ int player_turn(struct player* target){
     printf("Opponent has no card found.\n");
     // if card not found in opponent GOFISH
     printf("GO FISH\n");
-    struct card* top_card = next_card();
+    struct card* top_card = next_card();      // creating segmentation fault
     printf("Card Added: ");
     printf("Rank: %s\t", top_card->rank);
     printf("Suit: %c\n", top_card->suit);

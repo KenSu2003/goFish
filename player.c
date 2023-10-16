@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-/* Need tp include for rand and srand */
+/* Need to include for rand and srand */
 #include <stdlib.h> 
 #include <time.h>
 
@@ -12,7 +12,6 @@
 #include <unistd.h> // https://github.com/microsoft/vscode-cpptools/issues/2607
 
 //int book_index = 0;
-
 
 int add_card(struct player* target, struct card* new_card){
 
@@ -43,7 +42,9 @@ int remove_card(struct player* target, struct card* old_card){
     struct hand* iterator = target->card_list;
     struct hand* previous = NULL;
     if (iterator == NULL) { return 0; }         // reach end of the list
-    while (iterator->top.rank[0] != old_card->rank[0] && iterator->top.suit != old_card->suit) {              // while the current card is not old_card move iterator
+
+    // while the current card is not old_card move iterator
+    while (iterator->top.rank[0] != old_card->rank[0] || iterator->top.suit != old_card->suit) {              
         previous = iterator;
         iterator = iterator->next;
         if (iterator == NULL)                   // if iterator reaches the front
@@ -75,10 +76,11 @@ char check_add_book(struct player* target) {
     }
 
     struct hand* cards = target->card_list;
+    struct hand* previous = NULL;
     while (cards != NULL) {
         struct card tcard = cards->top;   // get current card
         int count = 0;                      // count how many of the cards had been matched
-        int indexes[4];
+        struct card card_remove[4];
         int index = 0;
         int cardIndex = 0;
         // Iterate through the hand to count matching cards
@@ -87,7 +89,8 @@ char check_add_book(struct player* target) {
             struct card scard = current->top;
             if (tcard.rank[0] == scard.rank[0]) {
                 count++;
-                indexes[index] = cardIndex;
+                // indexes[index] = cardIndex;
+                card_remove[index] = scard;
                 index++;
             }
             current = current->next;
@@ -102,18 +105,22 @@ char check_add_book(struct player* target) {
             target->book[target->book_index] = tcard.rank[0]; // not for 10
             
             // remove those cards
-            for (int j = 0; j < 4; j++) {
-                struct card rcard = cards->top;
-                remove_card(target, &rcard);
+            for (int i = 0; i < 4; i++) {
+                printf("card_remove = %c, %s\n",card_remove[i].suit,card_remove[i].rank);
+                remove_card(target, &card_remove[i]);
             }
+
+            // increase book index
             target->book_index++;
+
+            // check if the player had won
             if (target->book_index >= 6) {
                 game_over(target);
             }
 
             return tcard.rank[0];
         }
-
+        previous = cards;
         cards = cards->next;
     }
     return '0';
@@ -142,11 +149,15 @@ int transfer_cards(struct player* src, struct player* dest, char rank) {
     struct hand* previous = NULL;
     bool found = false;
     int cards_transferred = 0;
-    int error = -1;
+    int error = -1;    
 
     // Iterate through the linked list
     while (current_card != NULL) {
         struct card tcard = current_card->top;
+
+        // printf("Trasnfer Cards: Current Card: ");
+        // printf("Rank: %s\t", tcard.rank);
+        // printf("Suit: %c\n", tcard.suit);
 
         if (tcard.rank[0] == rank) {
             // If card is found, set found to true
@@ -154,6 +165,8 @@ int transfer_cards(struct player* src, struct player* dest, char rank) {
 
             // Add transferred card(s) to dest
             error = add_card(dest, &tcard);
+
+            // If there is an error return -1
             if (error != 0) {
                 return -1;
             }
@@ -164,20 +177,20 @@ int transfer_cards(struct player* src, struct player* dest, char rank) {
             } else {
                 src->card_list = current_card->next;
             }
-
-            free(current_card);  // Free memory of the item we are removing
+            printf("Card Transfered\n");
 
             // Update hand_size
             src->hand_size -= 1;
-
+            
             cards_transferred++;
-        } else {
-            // Move to the next card in the linked list
-            previous = current_card;
-            current_card = current_card->next;
         }
+        // Move to the next card in the linked list
+        previous = current_card;
+        current_card = current_card->next;
+        
     }
 
+    // If no cards are found return 0
     if (!found) {
         return 0;
     }
@@ -206,7 +219,6 @@ int reset_player(struct player* target){
 
 }
 
-// test code question: what happens when (not found)
 char computer_play(struct player* target){
 
     char ranks[13] = {'2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'};
