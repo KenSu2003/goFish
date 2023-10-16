@@ -32,8 +32,6 @@ int main(int args, char* argv[])
     /* Start Game */
     printf("\nGame Starting\n");
     while(game_state==0){
-      //return 1; // user has won
-      //return 2; // computer has won
       game_state = startGame();
     }
 
@@ -53,14 +51,13 @@ int main(int args, char* argv[])
       printf("Game Restarting\n");
       reset_player(&computer);
       reset_player(&user);
-      restart=1;        // restart the game
     } else {
       printf("Game Closed\n");
       restart=0;        // end game
     }
     printf("Restarting Game\n");
   }
-  printf("Exiting Application\n");
+  printf("Closing Application\n");
 }
 
 

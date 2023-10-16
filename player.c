@@ -206,13 +206,10 @@ int game_over(struct player* target){
 // test code
 int reset_player(struct player* target){
     
-    struct hand* cards = target->card_list;
-    struct card tcard;
-
-    // Remove all the cards from player
-    while(target->hand_size>0){
-        tcard = cards[0].top;
-        remove_card(target,&tcard);
+    // Remove all the cards from the player
+    while (target->card_list != NULL) {
+        struct card tcard = target->card_list->top;
+        remove_card(target, &tcard);
     }
 
     // Reset the Player's book
