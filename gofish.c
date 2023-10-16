@@ -26,11 +26,10 @@ int player_counter = 0;
 int main(int args, char* argv[]) 
 {
   while(restart == 1){
-
-    printf("Initializing Game\n");
+    /* Initialized Game */
     initializeGame();
+
     /* Start Game */
-    
     printf("\nGame Starting\n");
     while(game_state==0){
       //return 1; // user has won
@@ -38,13 +37,14 @@ int main(int args, char* argv[])
       game_state = startGame();
     }
 
+    /* Announce the Winner */
     if(game_state == 1){
       printf("\nPlayer has won\n");
     } else if (game_state == 2){
       printf("\nComputer has won\n");
     }
 
-    /* Restart of End Game */
+    /* Restart or End Game */
     printf("Restart?\n");
     char restartC[2];
     printf("Would you like to restart the game? [y/n]: ");
@@ -54,18 +54,19 @@ int main(int args, char* argv[])
       reset_player(&computer);
       reset_player(&user);
       restart=1;        // restart the game
-      continue;
     } else {
       printf("Game Closed\n");
       restart=0;        // end game
     }
+    printf("Restarting Game\n");
   }
   printf("Exiting Application\n");
 }
 
 
 void initializeGame(){
-  /* Initizlize Game */
+
+  printf("Initializing Game\n");
   game_state = 0;
   player_counter = 0;
 
@@ -118,7 +119,7 @@ void getHand(struct player* target){
   
   struct hand* iterator = target->card_list;
 
-  // if hand is empty
+  // if hand is empty, segmentation fault when the card deck is empty
   if (iterator == NULL) {
     printf("Player has an empty hand.\n");
     goFish(target);
