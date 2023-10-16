@@ -198,7 +198,6 @@ int transfer_cards(struct player* src, struct player* dest, char rank) {
     return cards_transferred;
 }
 
-// test code
 int game_over(struct player* target){
     if(target->book_index>=7){ return 1; }
     return 0;

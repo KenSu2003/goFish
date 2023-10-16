@@ -72,16 +72,30 @@ int main(int args, char* argv[])
       printf("\nComputer has won\n");
     }
 
+    /* Restart of End Game */
     printf("Restart?\n");
     char restartC[2];
     printf("Would you like to restart the game? [y/n]: ");
     scanf("%s",restartC);
     if(restartC[0]=='y'){
+      printf("Game Restarting\n");
+      reset_player(&computer);
+      reset_player(&user);
       restart=1;        // restart the game
     } else {
+      printf("Game Closed\n");
       restart=0;        // end game
     }
   }
+}
+
+
+void initializeGame(){
+  
+}
+
+void startGame(){
+
 }
 
 void goFish(struct player* target){
