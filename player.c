@@ -12,7 +12,6 @@
 #include <unistd.h> // https://github.com/microsoft/vscode-cpptools/issues/2607
 
 //int book_index = 0;
-
 int add_card(struct player* target, struct card* new_card){
 
     /* Allocate space for new element */

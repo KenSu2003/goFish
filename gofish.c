@@ -13,13 +13,6 @@ struct player computer;
 int game_state = 0;
 int restart = 1;
 
-void getHand(struct player* target);
-int player_turn(struct player* target);
-void getBook(struct player* target);
-void goFish(struct player* target);
-void initializeGame();
-int startGame();
-
 // Turn Counter; player is even, computer is odd
 int player_counter = 0;
 
