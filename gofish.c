@@ -100,16 +100,17 @@ int startGame(){
   }
   player_counter++;
   return game_state;
-
 }
 
 void goFish(struct player* target){
   printf("GO FISH\n");
   struct card* top_card = next_card();      // creating segmentation fault
+  if(top_card == NULL){printf("No more card in deck\n");return;}
   printf("Card Added: ");
   printf("Rank: %s\t", top_card->rank);
   printf("Suit: %c\n", top_card->suit);
   add_card(target, top_card);       
+  printf("%zu cards left in deck\n",deck_size());
 }
 
 void getHand(struct player* target){

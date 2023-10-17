@@ -27,11 +27,14 @@ int shuffle(){
         }
     }
     // printf("Inital Deck: \n");
+    // int numberofcards=0;
     // for (int k = 0; k < 52; k++){
     // printf("Rank: %s ", deck_instance.list[k].rank);
-    // printf("Rank: %c%c ",deck_instance.list[k].rank[0], deck_instance.list[k].rank[1]);
+    // // printf("Rank: %c%c ",deck_instance.list[k].rank[0], deck_instance.list[k].rank[1]);
     // printf("Suit: %c\n", deck_instance.list[k].suit);
+    // numberofcards++;
     // }
+    // printf("Number of Cards %d",numberofcards);
 
     // Go through each card and switch it with a random card from the rest of the cards
     srand(2);   // set a seed for testing.
@@ -43,7 +46,7 @@ int shuffle(){
         deck_instance.list[i] = deck_instance.list[j];   // ith card = jth card
         deck_instance.list[j] = temp;                    // ith card = ith card
     }
-    deck_instance.top_card = 51;   // initialize top card to 51
+    deck_instance.top_card = 52;   // initialize top card to 51
     // printf("After Shuffle: \n");
     // for (int k = 0; k < 52; k++){
     // printf("Rank: %s ", deck_instance.list[k].rank);
@@ -65,11 +68,13 @@ return 0;   // executed successfully
 
 // test
 struct card* next_card(){
+    // printf("%d cards left in deck\n",deck_instance.top_card+1);
     if (deck_size()==0){   // check that there are cards in the deck
         return NULL;
     }
     struct card* top_card = &(deck_instance.list[deck_instance.top_card]);  // pointer to current top card
 	deck_instance.top_card--;  // remove that card from the list
+    // printf("After cards dealt %d cards left in deck\n",deck_instance.top_card+1);
 	return top_card;   // pointer to the top card
 }
 

@@ -151,6 +151,10 @@ int transfer_cards(struct player* src, struct player* dest, char rank) {
     int cards_transferred = 0;
     int error = -1;    
 
+    if (src->hand_size == 0) {
+        return 0;  // No cards to transfer
+    }
+
     // Iterate through the linked list
     while (current_card != NULL) {
         struct card tcard = current_card->top;
