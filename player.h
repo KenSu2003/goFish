@@ -2,6 +2,8 @@
 #define PLAYER_H
 
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include "card.h"
 
 /*
@@ -146,3 +148,5 @@ char computer_play(struct player* target);
 char user_play(struct player* target);
 
 #endif
+
+

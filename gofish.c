@@ -84,8 +84,8 @@ int startGame(){
   printf("————————————————————————————————————————\n");
   printf("Player 1's Hand - ");
   getHand(&user);
-  printf("Player 2's Hand - ");
-  getHand(&computer);
+  // printf("Player 2's Hand - ");
+  // getHand(&computer);
   printf("Player 1's Book - ");
   getBook(&user);
   printf("\nPlayer 2's Book - ");
@@ -103,14 +103,22 @@ int startGame(){
 }
 
 void goFish(struct player* target){
-  printf("GO FISH\n");
+  // printf("GO FISH\n");
   struct card* top_card = next_card();      // creating segmentation fault
   if(top_card == NULL){printf("No more card in deck\n");return;}
-  printf("Card Added: ");
-  printf("Rank: %s\t", top_card->rank);
-  printf("Suit: %c\n", top_card->suit);
+  
+  if(target == &user){
+    printf("\t- Go Fish, Player 1 draws a card\n");
+  }
+  else{
+    printf("\t- Go Fish, Player 2 draws a card\n");
+  }
+
+  // printf("Card Added: ");
+  // printf("Rank: %s\t", top_card->rank);
+  // printf("Suit: %c\n", top_card->suit);
   add_card(target, top_card);       
-  printf("%zu cards left in deck\n",deck_size());
+  // printf("%zu cards left in deck\n",deck_size());
 }
 
 void getHand(struct player* target){
@@ -136,9 +144,9 @@ void getHand(struct player* target){
 }
 
 void getBook(struct player* target){
-  printf("Book: ");
+  // printf("Book: ");
   for (int i=0;i<sizeof(target->book);i++){
-    printf("%c, ",target->book[i]);
+    printf("%c ",target->book[i]);
   }
 }
 
@@ -148,21 +156,20 @@ int player_turn(struct player* target){
 
   // Determine which player is playing
   if(target == &user){
-    printf("User's Hand\n");
-    getHand(target);
-    printf("\n");
+    // printf("User's Hand\n");
+    // getHand(target);
+    // printf("\n");
     opponent = &computer;
-    printf("User's turn\n");
-    // Let user choose a card from the opponent
-    request[0] = user_play(target);
+    // printf("User's turn\n");
+    request[0] = user_play(target); // Let user choose a card from the opponent
   } else {
-    printf("Computer's Hand\n");
-    getHand(target);
-    printf("\n");
+    // printf("Computer's Hand\n");
+    // getHand(target);
+    // printf("\n");
     opponent = &user;
-    printf("Computer's turn\n");
-    // Let user choose a card from the opponent
-    request[0] = computer_play(target);
+    // printf("Computer's turn\n");
+    request[0] = computer_play(target); // Let user choose a card from the opponent
+    printf("Player 2's turn, enter a Rank: %c%c\n", request[0], request[1]);
   }  
 
   printf("\n");
@@ -171,25 +178,34 @@ int player_turn(struct player* target){
   if(error<0){
     printf("Error: Card not transfered correctly.\n");
   } else if (error == 0){
-    printf("No card found.\n");  
-    goFish(target);
+    if(target == &user){
+      printf("\t- Player 2 has no %c%c's\n", request[0], request[1]);
+    // printf("No card found.\n");  
+      goFish(target);
+    }
+    else{
+        printf("\t- Player 1 has no %c%c's\n", request[0], request[1]);
+    // printf("No card found.\n");  
+        goFish(target);
+    }
   } else {
-    printf("%d card(s) transfered.\n",error);
+    // printf("%d card(s) transfered.\n",error);
   }
 
   // Show player's updated hand
   if(target == &user){
-    printf("\nUser's New Hand\n");
-    getHand(target);
+    // printf("\nUser's New Hand\n");
+    // getHand(target);
   } else {
-    printf("\nComputer's New Hand\n");
-    getHand(target);
+    // printf("\nComputer's New Hand\n");
+    // getHand(target);
   }  
 
   /* Check if the Player has won */
   char added;
   added = check_add_book(target);       // Check for a full book
-  if(added != '0'){ printf("Book found %c\n",added); }
+  if(added!='0'){player_counter--;}
+  // if(added != '0'){ printf("Book found %c\n",added); }
   int won = game_over(target);
   if(won==1 && opponent==&computer){
     return 1; // user has won

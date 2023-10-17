@@ -235,7 +235,7 @@ int reset_player(struct player* target){
 
 char computer_play(struct player* target){
 
-    char ranks[13] = {'2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'};
+    char ranks[13] = {'2', '3', '4', '5', '6', '7', '8', '9', '1', 'J', 'Q', 'K', 'A'};
     
     // Seed the random number generator
     srand(time(NULL));
@@ -244,14 +244,16 @@ char computer_play(struct player* target){
     int randomIndex = rand()%13;
 
     char rank = ranks[randomIndex];
-    int found = search(target,rank);
-    while(found!=true){
+    int found = search(target,rank);   // see if computer has the card
+    while(found!=true){   // found = 0, 
         rank = ranks[rand()%13];
         found = search(target,rank);
         if(found == 1){
+            printf("What is this returning: $c", rank);
             return rank;
         } 
     }
+    return rank;
     
 }
 
@@ -261,7 +263,7 @@ char user_play(struct player* target){
     while(found == false){
 
         // Prompt player to choose a rank
-        printf("Please choose a rank [2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K, A]: ");
+        printf("Player 1's turn, enter a Rank: ");
         scanf("%s",request);     // limit input to oen character to prevent overflow
         // printf("Request = %s\n",request);
 
