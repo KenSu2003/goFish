@@ -182,31 +182,32 @@ void search_and_print_cards(struct player* src, struct player* dest, char rank){
     
 
     if(found==true){
-        if(src==&computer){
-            printf("\t - Player 2 has ");
+        if(src==&computer){  
             struct card tcard;
-            for(int i=0;i<player_index;i++){
-                tcard = player_cards[0];
-                printf("%s%c ",tcard.rank,tcard.suit);
-            }
-            printf("\n");
             printf("\t - Player 1 has ");
             for(int i=0;i<opponent_index;i++){
                 tcard = opponent_cards[0];
                 printf("%s%c ",tcard.rank,tcard.suit);
             }
             printf("\n");
+            printf("\t - Player 2 has ");
+            for(int i=0;i<player_index;i++){
+                tcard = player_cards[0];
+                printf("%s%c ",tcard.rank,tcard.suit);
+            }
+            printf("\n");
+            
         } else {
-            printf("\t - Player 1 has ");
             struct card tcard;
-            for(int i=0;i<player_index;i++){
-                tcard = player_cards[0];
-                printf("%s%c ",tcard.rank,tcard.suit);
-            }
-            printf("\n");
             printf("\t - Player 2 has ");
             for(int i=0;i<opponent_index;i++){
                 tcard = opponent_cards[0];
+                printf("%s%c ",tcard.rank,tcard.suit);
+            }
+            printf("\n");
+            printf("\t - Player 1 has ");
+            for(int i=0;i<player_index;i++){
+                tcard = player_cards[0];
                 printf("%s%c ",tcard.rank,tcard.suit);
             }
             printf("\n");
