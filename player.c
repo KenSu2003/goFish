@@ -68,7 +68,6 @@ int remove_card(struct player* target, struct card* old_card){
 
 };
 
-// not removing cards correctly
 char check_add_book(struct player* target) {
     if (target->hand_size == 0) {
         return 0; // check if the player has cards to begin with
@@ -102,7 +101,6 @@ char check_add_book(struct player* target) {
         if (count == 4) {
             // add rank to book
             target->book[target->book_index] = tcard.rank[0]; // not for 10
-            
             // remove those cards
             for (int i = 0; i < 4; i++) {
                 // printf("card_remove = %c, %s\n",card_remove[i].suit,card_remove[i].rank);
@@ -112,10 +110,12 @@ char check_add_book(struct player* target) {
             // increase book index
             target->book_index++;
 
-            // check if the player had won
-            // if (target->book_index >= 7) {
-            //     game_over(target);
-            // }
+            //print which card the target got
+            if(target==&user){
+                printf("\t- Player 1 books %s\n",tcard.rank);
+            }else{
+                printf("\t- Player 2 books %s\n",tcard.rank);
+            }
 
             return tcard.rank[0];
         }
@@ -215,7 +215,6 @@ void search_and_print_cards(struct player* src, struct player* dest, char rank){
     }
 }
    
-
 int search(struct player* target, char rank){
     struct hand* cards = target->card_list;
     struct card tcard;

@@ -104,11 +104,11 @@ void goFish(struct player* target){
   if(target == &user){
     printf("\t- Go Fish, Player 1 draws ");
     printf("%s%c\n",top_card->rank,top_card->suit);
-    printf("\t- Player 2's turn\n");
+    // printf("\t- Player 2's turn\n");
   }
   else{
     printf("\t- Go Fish, Player 2 draws a card\n");
-    printf("\t- Player 1's turn\n");
+    // printf("\t- Player 1's turn\n");
   }
 
   // printf("Card Added: ");
@@ -215,7 +215,19 @@ int player_turn(struct player* target){
     } else {
       printf("\t- Player 2 gets another turn\n");
     }
+  } else {
+    if(target == &user){
+      printf("\t- Player 2's turn\n");
+    }
+    else{
+      printf("\t- Player 1's turn\n");
+    }
   }
+
+  
+
+
+
   // if(added != '0'){ printf("Book found %c\n",added); }
   int won = game_over(target);
   if(won==1 && opponent==&computer){
