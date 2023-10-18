@@ -73,9 +73,9 @@ void initializeGame(){
 
 // return game_state = 0 if continue game
 int startGame(){
-  printf("\nNew Turn\n");
-  printf("————————————————————————————————————————\n");
-  printf("Player 1's Hand - ");
+  // printf("\nNew Turn\n");
+  // printf("————————————————————————————————————————\n");
+  printf("\nPlayer 1's Hand - ");
   getHand(&user);
   // printf("Player 2's Hand - ");
   // getHand(&computer);
@@ -83,7 +83,8 @@ int startGame(){
   getBook(&user);
   printf("\nPlayer 2's Book - ");
   getBook(&computer);
-  printf("\n————————————————————————————————————————\n");
+  // printf("\n————————————————————————————————————————\n");
+  printf("\n");
 
   // 3. play game
   if(player_counter%2==0){
@@ -101,10 +102,13 @@ void goFish(struct player* target){
   if(top_card == NULL){printf("No more card in deck\n");return;}
   
   if(target == &user){
-    printf("\t- Go Fish, Player 1 draws a card\n");
+    printf("\t- Go Fish, Player 1 draws ");
+    printf("%s%c\n",top_card->rank,top_card->suit);
+    printf("\t- Player 2's turn\n");
   }
   else{
     printf("\t- Go Fish, Player 2 draws a card\n");
+    printf("\t- Player 1's turn\n");
   }
 
   // printf("Card Added: ");
@@ -165,9 +169,15 @@ int player_turn(struct player* target){
     printf("Player 2's turn, enter a Rank: %c%c\n", request[0], request[1]);
   }  
 
-  printf("\n");
+  // printf("\n");
+
+
+  search_and_print_cards(opponent,target,request[0]);
+
+
   // Transfer cards from opponent to player
   int error = transfer_cards(opponent, target, request[0]);
+
   if(error<0){
     printf("Error: Card not transfered correctly.\n");
   } else if (error == 0){
@@ -182,7 +192,8 @@ int player_turn(struct player* target){
         goFish(target);
     }
   } else {
-    // printf("%d card(s) transfered.\n",error);
+      
+      // printf("%d card(s) transfered.\n",error);
   }
 
   // Show player's updated hand
@@ -197,7 +208,14 @@ int player_turn(struct player* target){
   /* Check if the Player has won */
   char added;
   added = check_add_book(target);       // Check for a full book
-  if(added!='0'){player_counter--;}
+  if(added!='0'){
+    player_counter--;
+    if(target==&user){
+      printf("\t- Player 1 gets another turn\n");
+    } else {
+      printf("\t- Player 2 gets another turn\n");
+    }
+  }
   // if(added != '0'){ printf("Book found %c\n",added); }
   int won = game_over(target);
   if(won==1 && opponent==&computer){

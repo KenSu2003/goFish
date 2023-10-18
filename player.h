@@ -147,6 +147,5 @@ char computer_play(struct player* target);
  */
 char user_play(struct player* target);
 
+void search_and_print_cards(struct player* src, struct player* dest, char rank);
 #endif
-
-

@@ -125,6 +125,97 @@ char check_add_book(struct player* target) {
     return '0';
 }
 
+void search_and_print_cards(struct player* src, struct player* dest, char rank){   // returns an array of found cards
+    
+    if (src->hand_size == 0) {
+        return;  // No cards to transfer
+    }
+    
+    // Check for the players (dest) cards
+    struct hand* dest_card = dest->card_list;
+    struct hand* previousDest = NULL;
+    struct card player_cards[4];
+    int player_index = 0;
+
+    while (dest_card != NULL) {
+        struct card tcard = dest_card->top;
+        if (tcard.rank[0] == rank) {
+            // add card to the opponents card
+            player_cards[player_index] = tcard;
+            player_index++;
+            // Check next cards
+            previousDest = dest_card;
+            dest_card = dest_card->next;
+        } else {
+            // Move to the next card in the linked list
+            previousDest = dest_card;
+            dest_card = dest_card->next;
+        }
+    }
+
+    // Check for the opponents (src) cards
+    struct hand* src_card = src->card_list;
+    struct hand* previousSrc = NULL;
+    bool found = false;
+
+    struct card opponent_cards[4];
+    int opponent_index = 0;
+
+    while (src_card != NULL) {
+        struct card tcard = src_card->top;
+        if (tcard.rank[0] == rank) {
+            // If card is found, set found to true
+            found = true;
+            // add card to the opponents card
+            opponent_cards[opponent_index] = tcard;
+            opponent_index++;
+            // Check next cards
+            previousSrc = src_card;
+            src_card = src_card->next;
+        } else {
+            // Move to the next card in the linked list
+            previousSrc = src_card;
+            src_card = src_card->next;
+        }
+    }
+
+    
+
+    if(found==true){
+        if(src==&computer){
+            printf("\t - Player 2 has ");
+            struct card tcard;
+            for(int i=0;i<player_index;i++){
+                tcard = player_cards[0];
+                printf("%s%c ",tcard.rank,tcard.suit);
+            }
+            printf("\n");
+            printf("\t - Player 1 has ");
+            for(int i=0;i<opponent_index;i++){
+                tcard = opponent_cards[0];
+                printf("%s%c ",tcard.rank,tcard.suit);
+            }
+            printf("\n");
+        } else {
+            printf("\t - Player 1 has ");
+            struct card tcard;
+            for(int i=0;i<player_index;i++){
+                tcard = player_cards[0];
+                printf("%s%c ",tcard.rank,tcard.suit);
+            }
+            printf("\n");
+            printf("\t - Player 2 has ");
+            for(int i=0;i<opponent_index;i++){
+                tcard = opponent_cards[0];
+                printf("%s%c ",tcard.rank,tcard.suit);
+            }
+            printf("\n");
+        }
+        
+    }
+}
+   
+
 int search(struct player* target, char rank){
     struct hand* cards = target->card_list;
     struct card tcard;
@@ -173,11 +264,9 @@ int transfer_cards(struct player* src, struct player* dest, char rank) {
             // Remove transferred card(s) from src
             if (previous != NULL) {
                 previous->next = current_card->next;
-                // free(current_card); // Free memory of item we are removing
                 current_card = previous->next; // Move to the next card in the linked list
             } else {
                 src->card_list = current_card->next;
-                // free(current_card); // Free memory of item we are removing
                 current_card = src->card_list; // Move to the next card in the linked list
             }
 
@@ -206,7 +295,6 @@ int game_over(struct player* target){
     return 0;
 }
 
-// test code
 int reset_player(struct player* target){
     
     // Remove all the cards from the player
@@ -248,7 +336,7 @@ char computer_play(struct player* target){
         rank = ranks[rand()%13];
         found = search(target,rank);
         if(found == 1){
-            printf("What is this returning: $c", rank);
+            // printf("What is this returning: %c", rank);
             return rank;
         } 
     }
