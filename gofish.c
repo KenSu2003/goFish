@@ -30,9 +30,9 @@ int main(int args, char* argv[])
 
     /* Announce the Winner */
     if(game_state == 1){
-      printf("\nPlayer has won\n");
+      printf("\nPlayer 1 Wins %d-%d!\n",user.book_index,computer.book_index);
     } else if (game_state == 2){
-      printf("\nComputer has won\n");
+      printf("\nPlayer 2 Wins %d-%d!\n",computer.book_index,user.book_index);
     }
 
     /* Restart or End Game */
@@ -41,16 +41,15 @@ int main(int args, char* argv[])
     printf("Would you like to restart the game? [y/n]: ");
     scanf("%s",restartC);
     if(restartC[0]=='y'){
-      printf("Game Restarting\n");
       reset_player(&computer);
       reset_player(&user);
     } else {
-      printf("Game Closed\n");
+      
       restart=0;        // end game
     }
-    printf("Restarting Game\n");
+    
   }
-  printf("Closing Application\n");
+  printf("Exiting.\n");
 }
 
 
@@ -143,7 +142,12 @@ void getHand(struct player* target){
 void getBook(struct player* target){
   // printf("Book: ");
   for (int i=0;i<sizeof(target->book);i++){
-    printf("%c ",target->book[i]);
+    if(target->book[i]=='1'){
+      printf("10 ");
+    }else{
+      printf("%c ",target->book[i]);
+    }
+    
   }
 }
 
